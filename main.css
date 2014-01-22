@@ -11,6 +11,8 @@
 .masonry-timeline .posts-container {
     overflow-x: scroll;
     overflow-y: hidden;
+    overflow-scrolling: touch;
+    -webkit-overflow-scrolling: touch;
 
     height: 440px;
 }
@@ -80,9 +82,7 @@
 
 .masonry-timeline .dates .year p {
     text-align: center;
-    padding-right: 16px;
     margin: 0;
-    bottom: -12px;
     color: #512139;
     border-bottom: solid white 2px;
 
@@ -97,4 +97,10 @@
 
 .masonry-timeline .dates .year:hover, .masonry-timeline .dates .year.active:hover {
     cursor: pointer;
+}
+
+@media only screen and (max-width : 480px) {
+    .masonry-timeline .dates {
+        display: none;
+    }
 }
