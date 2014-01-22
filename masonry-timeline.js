@@ -43,15 +43,13 @@
 
     MasonryTimeline.prototype = {
         _postPositionCache: [],
-        _postCountPerMonth: {},
-        _maxPostsPerMonth: 0,
 
         init: function () {
             var that = this;
             var $posts = $(this.element).find('.posts .post');
 
             //wrap all dates with moment for easy manipulation
-            $posts.each(function(idx, post) {
+            $posts.each(function (idx, post) {
                 var momentDate = moment($(post).data('date'), that.settings.dateFormat);
                 $(post).data('date', momentDate);
             });
@@ -61,9 +59,6 @@
                 .find('.posts')
                 .packery(this.settings.packery);
 
-            //store post positions for performance
-            this._calculatePostCountPerMonth($posts);
-
             //draw the timeline
             this._drawTimeline($posts);
             this._updateTimeline();
@@ -71,8 +66,8 @@
             //whenever month is clicked -> scroll to right post
             $(this.element)
                 .find('.dates')
-                .on('click', '.months > *', function () {
-                    that._jumpToDate($(this).data('date'));
+                .on('click', '.year', function () {
+                    that._jumpToYear($(this).data('year'));
                 });
 
             //whenerver user scrolls list of posts -> update timeline
@@ -86,32 +81,14 @@
                 that._updateTimeline();
             })
         },
-        //search for a first post with given month and year, scroll list of posts to that element
-        _jumpToDate: function (date) {
+        //search for a first post with given year, scroll list of posts to that element
+        _jumpToYear: function (year) {
             for (var i = 0; i < this._postPositionCache.length; i++) {
                 var item = this._postPositionCache[i];
 
-                if (item.date.year() === date.year() && item.date.month() === date.month()) {
+                if (item.date.year() === year) {
                     $(this.element).find('.posts-container').scrollLeft(item.left);
                     break;
-                }
-            }
-        },
-        //calculate number of posts per month and maximum number of posts per month
-        _calculatePostCountPerMonth: function ($posts) {
-            this._postCountPerMonth = {};
-            $posts.each(function (idx, post) {
-                var date = $(post).data('date');
-                var key = date.year() + '_' + date.month();
-
-                this._postCountPerMonth[key] = this._postCountPerMonth[key] ? ++this._postCountPerMonth[key] : 1;
-            }.bind(this));
-
-            for (var key in this._postCountPerMonth) {
-                var value = this._postCountPerMonth[key];
-
-                if (value > this._maxPostsPerMonth) {
-                    this._maxPostsPerMonth = value;
                 }
             }
         },
@@ -159,12 +136,12 @@
         _updateTimeline: function () {
             var visiblePosts = this._getVisiblePosts($(this.element).find('.posts-container'));
 
-            $(this.element).find('.dates .months > li').removeClass('active');
+            $(this.element).find('.dates .year').removeClass('active');
 
             visiblePosts.forEach(function (post) {
                 var date = post.date;
 
-                $('#date_' + date.year() + '_' + date.month()).addClass('active');
+                $('#year_' + date.year()).addClass('active');
             });
         },
         //create markup for the timeline
@@ -176,42 +153,16 @@
             var startYear = latestPostDate.year();
             var endYear = lastPostDate.year();
 
-            var months = (latestPostDate.month() + 1) + (startYear - endYear - 1) * 12 + (12 - lastPostDate.month());
-            var monthWidth = Math.floor($(this.element).find('.dates').width() / months);
+            var yearWidth = Math.floor($(this.element).find('.dates').width() / (startYear - endYear + 1));
 
-            var currentDate = latestPostDate.clone();
-            var currentYear = startYear;
+            var $year = $('<div class="year"><p></p></div>');
 
-            var $year = $('<div class="year"><ul class="months"></ul><p>' + startYear + '</p></div>')
-
-            for (var i = 0; i < months; i++) {
-                var postsThisMonth = this._postCountPerMonth[currentYear + '_' + currentDate.month()];
-                postsThisMonth = postsThisMonth ? postsThisMonth : 0;
-                var monthHeight = Math.floor(postsThisMonth / this._maxPostsPerMonth * 100);
-
-                var $month = $('<li></li>');
-                $month.attr('id', 'date_' + currentYear + '_' + currentDate.month());
-                $month.css('width', monthWidth + 'px');
-                if (monthHeight > 0) {
-                    $month.css('height', monthHeight + '%');
-                } else {
-                    $month.addClass('empty');
-                }
-                $month.data('date', currentDate.clone());
-                $year.find('.months').append($month);
-
-                currentDate.subtract('months', 1);
-
-                if (currentDate.year() !== currentYear) {
-                    years.push($year);
-                    $year = $year.clone(true);
-                    $year.find('ul').empty();
-                    currentYear = currentDate.year();
-                    $year.find('p').text(currentYear);
-                }
-            }
-
-            if ($year.find('ul > li').length) {
+            for (var i = startYear; i >= endYear; i--) {
+                $year = $year.clone(true);
+                $year.data('year', i);
+                $year.attr('id', 'year_' + i);
+                $year.find('p').text(i);
+                $year.css('width', yearWidth + 'px');
                 years.push($year);
             }
 

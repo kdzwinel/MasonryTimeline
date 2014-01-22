@@ -12,7 +12,7 @@
     overflow-x: scroll;
     overflow-y: hidden;
 
-    height: 320px;
+    height: 440px;
 }
 
 .masonry-timeline .posts {
@@ -38,6 +38,11 @@
     font-size: 12px;
 }
 
+.masonry-timeline .posts > .post.big {
+    width: 210px;
+    height: 210px;
+}
+
 .masonry-timeline .posts > .post.medium {
     width: 100px;
     height: 210px;
@@ -48,11 +53,6 @@
     height: 100px;
 }
 
-.masonry-timeline .posts > .post.big {
-    width: 210px;
-    height: 210px;
-}
-
 .masonry-timeline .posts > .post.small {
     width: 100px;
     height: 100px;
@@ -60,7 +60,7 @@
 
 .masonry-timeline .dates-container {
     text-align: center;
-    height: 55px;
+    height: 25px;
     padding: 2px;
     width: 100%;
 }
@@ -74,45 +74,27 @@
 .masonry-timeline .dates .year {
     display: inline-block;
     position: relative;
-    height: 80%;
+    height: 100%;
     vertical-align: top;
 }
 
 .masonry-timeline .dates .year p {
-    position: absolute;
-    left: 0;
-    right: 0;
     text-align: center;
     padding-right: 16px;
     margin: 0;
     bottom: -12px;
     color: #512139;
+    border-bottom: solid white 2px;
+
+    transition: transform 0.3s, color 0.3s;
+    -webkit-transition: border-bottom-color 0.3s, color 0.3s;
+    -moz-transition: border-bottom-color 0.3s, color 0.3s;
 }
 
-.masonry-timeline .dates .months {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    height: 100%;
+.masonry-timeline .dates .year.active p {
+    border-bottom: solid indianred 2px;
 }
 
-.masonry-timeline .dates .months > * {
-    display: inline-block;
-    height: 20px;
-    background: #512139;
-    vertical-align: top;
-}
-
-.masonry-timeline .dates .months > *:hover, .masonry-timeline .dates .months > .active:hover {
-    background: #B54A7C;
+.masonry-timeline .dates .year:hover, .masonry-timeline .dates .year.active:hover {
     cursor: pointer;
-}
-
-.masonry-timeline .dates .months > .active {
-    background: #813559;
-}
-
-.masonry-timeline .dates .months > .empty {
-    height: 1px;
-    border: none;
 }
