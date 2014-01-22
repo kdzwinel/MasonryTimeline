@@ -1,0 +1,118 @@
+* {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.masonry-timeline {
+    width: 100%;
+}
+
+.masonry-timeline .posts-container {
+    overflow-x: scroll;
+    overflow-y: hidden;
+
+    height: 320px;
+}
+
+.masonry-timeline .posts {
+    height: 100%;
+}
+
+.masonry-timeline .posts > .post {
+    border: solid #512139 2px;
+    overflow: hidden;
+    display: inline-block;
+    padding: 5px;
+    color: #813559;
+}
+
+.post h1 {
+    color: #5E384D;
+    margin-top: 0;
+    margin-bottom: 5px;
+    font-size: 20px;
+}
+
+.post p {
+    font-size: 12px;
+}
+
+.masonry-timeline .posts > .post.medium {
+    width: 100px;
+    height: 210px;
+}
+
+.masonry-timeline .posts > .post.medium-wide {
+    width: 210px;
+    height: 100px;
+}
+
+.masonry-timeline .posts > .post.big {
+    width: 210px;
+    height: 210px;
+}
+
+.masonry-timeline .posts > .post.small {
+    width: 100px;
+    height: 100px;
+}
+
+.masonry-timeline .dates-container {
+    text-align: center;
+    height: 55px;
+    padding: 2px;
+    width: 100%;
+}
+
+.masonry-timeline .dates {
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+}
+
+.masonry-timeline .dates .year {
+    display: inline-block;
+    position: relative;
+    height: 80%;
+    vertical-align: top;
+}
+
+.masonry-timeline .dates .year p {
+    position: absolute;
+    left: 0;
+    right: 0;
+    text-align: center;
+    padding-right: 16px;
+    margin: 0;
+    bottom: -12px;
+    color: #512139;
+}
+
+.masonry-timeline .dates .months {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    height: 100%;
+}
+
+.masonry-timeline .dates .months > * {
+    display: inline-block;
+    height: 20px;
+    background: #512139;
+    vertical-align: top;
+}
+
+.masonry-timeline .dates .months > *:hover, .masonry-timeline .dates .months > .active:hover {
+    background: #B54A7C;
+    cursor: pointer;
+}
+
+.masonry-timeline .dates .months > .active {
+    background: #813559;
+}
+
+.masonry-timeline .dates .months > .empty {
+    height: 1px;
+    border: none;
+}

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Masonry Timeline</title>
+    <link href="main.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div class="masonry-timeline">
+    <div class="posts-container">
+        <div class="posts">
+        </div>
+    </div>
+    <div class="dates-container">
+        <div class="dates"></div>
+    </div>
+</div>
+
+<script src="libs/jquery.min.js"></script>
+<script src="libs/packery.min.js"></script>
+<script src="libs/moment.min.js"></script>
+<script src="random-data.js"></script>
+<script src="masonry-timeline.js"></script><!-- just for random data - don't include in the final solution -->
+<script>
+    $(document).ready(function () {
+        "use strict";
+
+        $('.masonry-timeline .posts').append(randomPosts(300));
+        $('.masonry-timeline').masonryTimeline();
+    });
+</script>
+</body>
+</html>
