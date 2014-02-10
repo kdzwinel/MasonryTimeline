@@ -43,6 +43,7 @@
 
     MasonryTimeline.prototype = {
         _postPositionCache: [],
+        _yearsCache: [],
 
         init: function () {
             var that = this;
@@ -135,18 +136,27 @@
         //highlight months that are currently visible
         _updateTimeline: function () {
             var visiblePosts = this._getVisiblePosts($(this.element).find('.posts-container'));
+            var visibleYears = visiblePosts.map(function(post) {
+                return post.date.year();
+            }).filter(function(elem, pos, self) {
+                //keep only unique elements
+                return self.indexOf(elem) == pos;
+            });
 
-            $(this.element).find('.dates .year').removeClass('active');
+            //highlight visible years
+            this._yearsCache.forEach(function(yearElem){
+                var year = yearElem.data('year');
 
-            visiblePosts.forEach(function (post) {
-                var date = post.date;
-
-                $('#year_' + date.year()).addClass('active');
+                if(visibleYears.indexOf(year) !== -1) {
+                    yearElem.addClass('active');
+                } else {
+                    yearElem.removeClass('active');
+                }
             });
         },
         //create markup for the timeline
         _drawTimeline: function ($posts) {
-            var years = [];
+            this._yearsCache = [];
             var latestPostDate = $posts.eq(0).data('date');
             var lastPostDate = $posts.eq(-1).data('date');
 
@@ -163,10 +173,10 @@
                 $year.attr('id', 'year_' + i);
                 $year.find('p').text(i);
                 $year.css('width', yearWidth + 'px');
-                years.push($year);
+                this._yearsCache.push($year);
             }
 
-            $(this.element).find('.dates').empty().append(years);
+            $(this.element).find('.dates').empty().append(this._yearsCache);
         }
     };
 
